@@ -39,11 +39,11 @@ func (c *AuthController) Auth(ctx *gin.Context) {
 
 	authUser, err := user.GetByName(req.Name)
 	if err != nil && err == gorm.ErrRecordNotFound {
-		c.ResponseJson(ctx, http.StatusUnauthorized, "请求认证的用户不存在", nil)
+		c.ResponseJson(ctx, http.StatusUnauthorized, "用户名或密码错误", nil)
 		return
 	}
 	if !authUser.ComparePassword(req.Password) {
-		c.ResponseJson(ctx, http.StatusUnauthorized, "密码错误", nil)
+		c.ResponseJson(ctx, http.StatusUnauthorized, "用户名或密码错误", nil)
 		return
 	}
 	token, err := auth.Encode(authUser)
